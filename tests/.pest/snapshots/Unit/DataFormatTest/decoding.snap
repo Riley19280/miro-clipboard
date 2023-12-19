@@ -1,0 +1,49 @@
+{
+    "isProtected": false,
+    "boardId": "testing",
+    "data": {
+        "objects": [
+            {
+                "widgetData": {
+                    "json": {
+                        "points": [],
+                        "primary": {
+                            "point": {
+                                "x": 168,
+                                "y": -67.703357091219
+                            },
+                            "positionType": 0,
+                            "widgetIndex": -1
+                        },
+                        "secondary": {
+                            "point": {
+                                "x": -168,
+                                "y": 67.70335709121991
+                            },
+                            "positionType": 0,
+                            "widgetIndex": -1
+                        },
+                        "_position": null,
+                        "_parent": null,
+                        "style": "{\"lc\":3355443,\"ls\":2,\"t\":2,\"lt\":1,\"a_start\":0,\"a_end\":9,\"VER\":2,\"jump\":0}",
+                        "line": {
+                            "captions": []
+                        }
+                    },
+                    "type": "line"
+                },
+                "type": 14,
+                "id": 0,
+                "initialId": "123"
+            }
+        ],
+        "shift": {
+            "x": 808.5415182827164,
+            "y": 2427.294075133952,
+            "tokenizerIdDec": "123"
+        },
+        "meta": []
+    },
+    "version": 2,
+    "host": "miro.com"
+}

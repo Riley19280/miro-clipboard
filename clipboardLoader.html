@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clipboard Loader</title>
+
+    <script>
+
+        function copyButton() {
+            const value = document.getElementById('txt-input').value
+
+            navigator.clipboard.write([
+                new ClipboardItem({
+                    'text/html': new Blob([value], { type: 'text/html' }),
+                }),
+            ])
+        }
+
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<div style="margin: 20px">
+    <textarea id="txt-input" placeholder="paste html content here that you would like load into the system clipboard, then press the copy button"
+              style="width: 100%; height: 200px; "></textarea>
+    <button onclick="copyButton()" style="width: 100%; height: 50px">Copy</button>
+</div>
+
+</body>
+</html>

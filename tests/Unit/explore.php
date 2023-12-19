@@ -1,0 +1,81 @@
+<?php
+
+use MiroClipboard\Enums\LineCap;
+use MiroClipboard\Enums\LineType;
+use MiroClipboard\Enums\MiroShapeType;
+use MiroClipboard\MiroClipboardData;
+use MiroClipboard\MiroLineStyle;
+use MiroClipboard\MiroLineText;
+use MiroClipboard\MiroShapeStyle;
+use MiroClipboard\MiroWidget;
+
+test('playground', function() {
+    $shape = (new MiroWidget(1, 1))
+        ->shape(MiroShapeType::Star)
+        ->text('Hello!')
+        ->scale(.5)
+        ->rotation(90)
+        ->offsetPosition(50, 50)
+        ->style(fn(MiroShapeStyle $style) => $style
+            ->backgroundColor('#FF0000')
+            ->textColor('#00FF00')
+        );
+
+    $line =  (new MiroWidget(2, 2))
+        ->line()
+        ->start(-100, 0)
+        ->addPoint(50, 50)
+        ->end(100, 100)
+        ->addText(MiroLineText::make('woooow', .75, .5)->rotated())
+        ->addText(MiroLineText::make('123', .25, .5))
+        ->style(fn(MiroLineStyle $style) => $style
+            ->color('#F0FF00')
+            ->startingLinecap(LineCap::Circle)
+            ->endingLinecap(LineCap::DiamondFilled)
+            ->strokeWeight(4)
+            ->type(LineType::Square)
+            ->jump()
+        );
+
+    dd(
+        MiroClipboardData::make()
+            ->addGroup([$shape, $line])
+            ->toHTML()
+    );
+
+    dd(
+        MiroClipboardData::make()
+            ->addObject((new MiroWidget(1, 1))
+                ->line()
+                ->start(-100, 0)
+                ->addPoint(50, 50)
+                ->end(100, 100)
+                ->addText(MiroLineText::make('woooow', .75, .5)->rotated())
+                ->addText(MiroLineText::make('123', .25, .5))
+                ->style(fn(MiroLineStyle $style) => $style
+                    ->color('#F0FF00')
+                    ->startingLinecap(LineCap::Circle)
+                    ->endingLinecap(LineCap::DiamondFilled)
+                    ->strokeWeight(4)
+                    ->type(LineType::Square)
+                    ->jump()
+                )
+            )
+            ->toHTML()
+    );
+
+    dd(
+        MiroClipboardData::make()
+            ->addObject((new MiroWidget(1, 1))
+                ->shape(MiroShapeType::Star)
+                ->text('Hello!')
+                ->scale(.5)
+                ->rotation(90)
+                ->style(fn(MiroShapeStyle $style) => $style
+                    ->backgroundColor('#FF0000')
+                    ->textColor('#00FF00')
+                )
+            )
+            ->toHTML()
+    );
+});
