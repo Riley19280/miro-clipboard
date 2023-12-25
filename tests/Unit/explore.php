@@ -2,16 +2,16 @@
 
 use MiroClipboard\Enums\LineCap;
 use MiroClipboard\Enums\LineType;
-use MiroClipboard\Enums\MiroShapeType;
+use MiroClipboard\Enums\ShapeType;
 use MiroClipboard\MiroClipboardData;
-use MiroClipboard\MiroLineStyle;
-use MiroClipboard\MiroLineText;
-use MiroClipboard\MiroShapeStyle;
 use MiroClipboard\MiroWidget;
+use MiroClipboard\Objects\MiroLineText;
+use MiroClipboard\Styles\MiroLineStyle;
+use MiroClipboard\Styles\MiroShapeStyle;
 
 test('playground', function() {
     $shape = (new MiroWidget(1, 1))
-        ->shape(MiroShapeType::Star)
+        ->shape(ShapeType::Star)
         ->text('Hello!')
         ->scale(.5)
         ->rotation(90)
@@ -67,7 +67,7 @@ test('playground', function() {
     dd(
         MiroClipboardData::make()
             ->addObject((new MiroWidget(1, 1))
-                ->shape(MiroShapeType::Star)
+                ->shape(ShapeType::Star)
                 ->text('Hello!')
                 ->scale(.5)
                 ->rotation(90)

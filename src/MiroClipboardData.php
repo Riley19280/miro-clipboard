@@ -2,9 +2,10 @@
 
 namespace MiroClipboard;
 
+use MiroClipboard\Objects\MiroObject;
 use MiroClipboard\Utility\Makeable;
 
-use function MiroClipboard\Utility\stringToByteArray;
+use function MiroClipboard\MiroUtility\encodeMiroData;
 
 class MiroClipboardData
 {
@@ -14,8 +15,6 @@ class MiroClipboardData
     private string $host      = 'miro.com';
     private bool $isProtected = false;
     private int $version      = 2;
-
-    private const encodingOffset = 59;
 
     private array $data = [
         'meta'    => [],
@@ -55,37 +54,6 @@ class MiroClipboardData
         return $this;
     }
 
-    public function encoded(): string
-    {
-        $json = json_encode($this->toArray());
-
-        $newStr = '';
-
-        foreach (stringToByteArray($json) as $chr) {
-            $newStr .= chr($chr < 256 ? ($chr + self::encodingOffset) % 256 : $chr);
-        }
-
-        return base64_encode($newStr);
-    }
-
-    public static function fromString(string $text): array
-    {
-        $isHtml = preg_match('/(?:^.*?\(miro-data-v[0-9]+\))(.*?)(?:\(\/miro-data-v[0-9]+\).*?$)/', $text, $matches);
-        if ($isHtml) {
-            $text = $matches[1];
-        }
-
-        $text = base64_decode($text);
-
-        $newStr = '';
-
-        foreach (stringToByteArray($text) as $chr) {
-            $newStr .= mb_chr($chr < self::encodingOffset ? 256 - $chr : $chr - self::encodingOffset);
-        }
-
-        return json_decode($newStr, true);
-    }
-
     public function toArray(): array
     {
         return [
@@ -99,6 +67,6 @@ class MiroClipboardData
 
     public function toHTML(): string
     {
-        return '<span data-meta="<--(miro-data-v1)' . $this->encoded() . '(/miro-data-v1)-->"></span>';
+        return encodeMiroData($this->toArray());
     }
 }

@@ -2,7 +2,7 @@
 
 namespace MiroClipboard\Enums;
 
-enum MiroObjectType: int
+enum ObjectType: int
 {
     case Object = 14;
     case Group  = 10;

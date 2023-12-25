@@ -1,13 +1,16 @@
 <?php
 
-namespace MiroClipboard;
+namespace MiroClipboard\Styles;
 
 use MiroClipboard\Enums\LineCap;
 use MiroClipboard\Enums\LinePattern;
 use MiroClipboard\Enums\LineType;
+use MiroClipboard\Utility\SetPropertiesFromArray;
 
 class MiroLineStyle
 {
+    use SetPropertiesFromArray;
+
     /**
      * The Line Color
      *
@@ -27,9 +30,9 @@ class MiroLineStyle
      *
      * @var int
      */
-    private $t = 2;
+    private int $t = 2;
 
-    private $lt = 2;
+    private int $lt = 2;
 
     /**
      * The starting line cap
@@ -52,7 +55,7 @@ class MiroLineStyle
      */
     private int $jump = 0;
 
-    private float $VER = 2;
+    private string $VER = '2';
 
     public function color(int|string $color): static
     {

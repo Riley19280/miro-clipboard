@@ -1,9 +1,13 @@
 <?php
 
-namespace MiroClipboard;
+namespace MiroClipboard\Objects;
+
+use MiroClipboard\Utility\SetPropertiesFromArray;
 
 class MiroLineText
 {
+    use SetPropertiesFromArray;
+
     private string $id;
     private string $text;
 

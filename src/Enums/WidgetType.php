@@ -2,7 +2,7 @@
 
 namespace MiroClipboard\Enums;
 
-enum MiroWidgetType: string
+enum WidgetType: string
 {
     case Shape   = 'shape';
     case Line    = 'line';

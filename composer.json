@@ -24,7 +24,8 @@
             "MiroClipboard\\": "src/"
         },
         "files": [
-            "src/Utility/Utility.php"
+            "src/Utility/Utility.php",
+            "src/Utility/MiroUtility.php"
         ]
     },
     "autoload-dev": {

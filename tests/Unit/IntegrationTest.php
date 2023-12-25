@@ -1,13 +1,13 @@
 <?php
 
-use MiroClipboard\Enums\MiroWidgetType;
-use MiroClipboard\MiroLine;
-use MiroClipboard\MiroShape;
+use MiroClipboard\Enums\WidgetType;
 use MiroClipboard\MiroWidget;
+use MiroClipboard\Objects\MiroLine;
+use MiroClipboard\Objects\MiroShape;
 
 test('set type', function() {
-    $data = (new MiroWidget(0, 'test'))->type(MiroWidgetType::Sticker);
-    expect(invade($data)->widgetType)->toBe(MiroWidgetType::Sticker);
+    $data = (new MiroWidget(0, 'test'))->type(WidgetType::Sticker);
+    expect(invade($data)->widgetType)->toBe(WidgetType::Sticker);
 });
 
 test('set shape', function() {

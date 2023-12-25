@@ -1,15 +1,20 @@
 <?php
 
-namespace MiroClipboard;
+namespace MiroClipboard\Objects;
 
-use MiroClipboard\Enums\MiroShapeType;
-use MiroClipboard\Enums\MiroWidgetType;
+use MiroClipboard\Enums\ShapeType;
+use MiroClipboard\Enums\WidgetType;
+use MiroClipboard\MiroWidget;
+use MiroClipboard\Styles\MiroShapeStyle;
+use MiroClipboard\Utility\SetPropertiesFromArray;
 
 class MiroShape extends MiroWidget
 {
+    use SetPropertiesFromArray;
+
     private MiroShapeStyle $shapeStyle;
 
-    private MiroShapeType $shapeType;
+    private ShapeType $shapeType;
 
     private string $text = '';
 
@@ -36,11 +41,11 @@ class MiroShape extends MiroWidget
 
     private float $relativeRotation = 0;
 
-    public function __construct(MiroShapeType $shapeType, int $id, string $initialId)
+    public function __construct(ShapeType $shapeType, int $id, string $initialId)
     {
         parent::__construct($id, $initialId);
 
-        $this->widgetType = MiroWidgetType::Shape;
+        $this->widgetType = WidgetType::Shape;
 
         $this->shapeType = $shapeType;
 

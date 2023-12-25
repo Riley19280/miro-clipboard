@@ -2,7 +2,7 @@
 
 namespace MiroClipboard\Enums;
 
-enum MiroShapeType: string
+enum ShapeType: string
 {
     case Square            = '3';
     case Circle            = '4';
@@ -10,7 +10,7 @@ enum MiroShapeType: string
     case Bubble            = '6';
     case Squircle          = '7';
     case Diamond           = '8';
-    case Parallelagram     = '10';
+    case Parallelogram     = '10';
     case Star              = '11';
     case RightArrow        = '12';
     case ArrowLeft         = '13';

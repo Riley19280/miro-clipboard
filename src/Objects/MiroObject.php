@@ -1,15 +1,15 @@
 <?php
 
-namespace MiroClipboard;
+namespace MiroClipboard\Objects;
 
-use MiroClipboard\Enums\MiroObjectType;
+use MiroClipboard\Enums\ObjectType;
 
 abstract class MiroObject
 {
     public function __construct(
         protected int $id,
         protected string $initialId,
-        protected MiroObjectType $type,
+        protected ObjectType $type,
     ) {
     }
 

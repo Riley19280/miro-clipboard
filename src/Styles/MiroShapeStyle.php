@@ -1,19 +1,21 @@
 <?php
 
-namespace MiroClipboard;
+namespace MiroClipboard\Styles;
 
 use MiroClipboard\Enums\BorderStyle;
 use MiroClipboard\Enums\TextAlign;
 use MiroClipboard\Enums\VerticalTextAlign;
 use MiroClipboard\Utility\Makeable;
+use MiroClipboard\Utility\SetPropertiesFromArray;
 
 class MiroShapeStyle
 {
     use Makeable;
+    use SetPropertiesFromArray;
 
-    private $st = 3;
-    private $ss = 2;
-    private $sc = 1710618;
+    private int $st = 3;
+    private int $ss = 2;
+    private int $sc = 1710618;
 
     /**
      * The Background Color
@@ -71,7 +73,7 @@ class MiroShapeStyle
      */
     private int $tc = 15877926;
 
-    private $tsc = 1;
+    private int $tsc = 1;
 
     /**
      * The Text Align
@@ -124,16 +126,16 @@ class MiroShapeStyle
      */
     private ?int $s = null;
 
-    private $bsc = 1;
-    private $VER = 2.1;
+    private int $bsc    = 1;
+    private string $VER = '2.1';
 
     /**
      * The text highlight color
      * Values: Hex colors
      *
-     * @var null
+     * @var null|int
      */
-    private $hl = null;
+    private ?int $hl = null;
 
     public function backgroundColor(int|string $color): static
     {

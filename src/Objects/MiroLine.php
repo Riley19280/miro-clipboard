@@ -1,11 +1,16 @@
 <?php
 
-namespace MiroClipboard;
+namespace MiroClipboard\Objects;
 
-use MiroClipboard\Enums\MiroWidgetType;
+use MiroClipboard\Enums\WidgetType;
+use MiroClipboard\MiroWidget;
+use MiroClipboard\Styles\MiroLineStyle;
+use MiroClipboard\Utility\SetPropertiesFromArray;
 
 class MiroLine extends MiroWidget
 {
+    use SetPropertiesFromArray;
+
     private MiroLineStyle $lineStyle;
 
     /**
@@ -37,7 +42,7 @@ class MiroLine extends MiroWidget
     {
         parent::__construct($id, $initialId);
 
-        $this->widgetType = MiroWidgetType::Line;
+        $this->widgetType = WidgetType::Line;
 
         $this->lineStyle = new MiroLineStyle();
     }

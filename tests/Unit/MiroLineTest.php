@@ -3,9 +3,9 @@
 use MiroClipboard\Enums\LineCap;
 use MiroClipboard\Enums\LinePattern;
 use MiroClipboard\Enums\LineType;
-use MiroClipboard\MiroLine;
-use MiroClipboard\MiroLineStyle;
-use MiroClipboard\MiroLineText;
+use MiroClipboard\Objects\MiroLine;
+use MiroClipboard\Objects\MiroLineText;
+use MiroClipboard\Styles\MiroLineStyle;
 
 test('set start', function() {
     $data = (new MiroLine(0, 'test'))->start(123, 123);
