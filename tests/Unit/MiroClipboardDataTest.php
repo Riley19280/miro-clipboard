@@ -10,15 +10,15 @@ test('set board id', function() {
 });
 
 test('add object', function() {
-    $data = MiroClipboardData::make()->addObject(new MiroWidget(0, 'initialId'));
+    $data = MiroClipboardData::make()->addObject((new MiroWidget())->id(0)->initialId('0'));
     expect($data->toArray()['data']['objects'][0]['id'])->toBe(0);
-    expect($data->toArray()['data']['objects'][0]['initialId'])->toBe('initialId');
+    expect($data->toArray()['data']['objects'][0]['initialId'])->toBe('0');
 });
 
 test('add group', function() {
     $data = MiroClipboardData::make()->addGroup([
-        new MiroWidget(0, 'initialId'),
-        new MiroWidget(1, 'initialId'),
+        (new MiroWidget())->id(0)->initialId('0'),
+        (new MiroWidget())->id(1)->initialId('1'),
     ]);
     expect($data->toArray()['data']['objects'][0]['id'])->toBe(0);
     expect($data->toArray()['data']['objects'][1]['id'])->toBe(1);

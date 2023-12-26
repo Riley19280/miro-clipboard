@@ -9,7 +9,9 @@ use function MiroClipboard\MiroUtility\decodeMiroDataString;
 test('encoding', function() {
     $clipboardData = MiroClipboardData::make()
         ->boardId('encoding')
-        ->addObject((new MiroWidget(1, 1))
+        ->addObject((new MiroWidget())
+            ->id(0)
+            ->initialId('0')
             ->shape()
             ->style(fn(MiroShapeStyle $style) => $style->backgroundColor('#FF0000'))
         );

@@ -13,9 +13,9 @@ class MiroWidget extends MiroObject
 {
     protected WidgetType $widgetType;
 
-    public function __construct(int $id, string $initialId)
+    public function __construct()
     {
-        parent::__construct($id, $initialId, ObjectType::Object);
+        parent::__construct(ObjectType::Object);
     }
 
     public function type(WidgetType $type): static
@@ -27,11 +27,15 @@ class MiroWidget extends MiroObject
 
     public function shape(ShapeType $shapeType = ShapeType::Square): MiroShape
     {
-        return new MiroShape($shapeType, $this->id, $this->initialId);
+        return (new MiroShape($shapeType))
+            ->id($this->id)
+            ->initialId($this->initialId);
     }
 
     public function line(): MiroLine
     {
-        return new MiroLine($this->id, $this->initialId);
+        return (new MiroLine())
+            ->id($this->id)
+            ->initialId($this->initialId);
     }
 }

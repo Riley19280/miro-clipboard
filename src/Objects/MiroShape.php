@@ -41,9 +41,9 @@ class MiroShape extends MiroWidget
 
     private float $relativeRotation = 0;
 
-    public function __construct(ShapeType $shapeType, int $id, string $initialId)
+    public function __construct(ShapeType $shapeType)
     {
-        parent::__construct($id, $initialId);
+        parent::__construct();
 
         $this->widgetType = WidgetType::Shape;
 

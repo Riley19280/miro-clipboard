@@ -11,7 +11,7 @@ class LineParser implements MiroParserInterface
 {
     public static function parse(array $data): MiroLine
     {
-        $newLine = (new MiroWidget(1, '1'))
+        $newLine = (new MiroWidget())
             ->line()
             ->setPropertiesFromArray($data)
             ->setPropertiesFromArray($data['widgetData']['json'])

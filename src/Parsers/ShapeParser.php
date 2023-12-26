@@ -11,7 +11,7 @@ class ShapeParser implements MiroParserInterface
 {
     public static function parse(array $data): MiroShape
     {
-        return (new MiroWidget(1, '1'))
+        return (new MiroWidget())
             ->shape(ShapeType::from($data['widgetData']['json']['shape']))
             ->setPropertiesFromArray($data)
             ->setPropertiesFromArray($data['widgetData']['json'], [

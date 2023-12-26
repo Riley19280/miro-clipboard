@@ -4,8 +4,8 @@ namespace MiroClipboard\Utility;
 
 trait Makeable
 {
-    public static function make(): static
+    public static function make(): self
     {
-        return new static;
+        return new self;
     }
 }

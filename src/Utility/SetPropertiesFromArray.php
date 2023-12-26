@@ -2,13 +2,16 @@
 
 namespace MiroClipboard\Utility;
 
+use ReflectionNamedType;
+use ReflectionProperty;
+
 trait SetPropertiesFromArray
 {
     /**
-     * @param array                  $data
-     * @param array<string, Closure> $overrides
+     * @param array                   $data
+     * @param array<string, \Closure> $overrides
      *
-     * @return mixed
+     * @return self
      *
      * @internal
      */
@@ -18,9 +21,16 @@ trait SetPropertiesFromArray
             if (array_key_exists($key, $overrides)) {
                 $overrides[$key]($this, $val);
             } elseif (property_exists($this, $key)) {
-                $reflectionProp = new \ReflectionProperty($this, $key);
+                $reflectionProp = new ReflectionProperty($this, $key);
 
-                if (enum_exists($enumName = $reflectionProp->getType()->getName())) {
+                $propType = $reflectionProp->getType();
+
+                if (
+                    $propType instanceof ReflectionNamedType &&
+                    enum_exists($enumName = $propType->getName()) &&
+                    (new \ReflectionEnum($enumName))->isBacked()
+                ) {
+                    /** @phpstan-ignore-next-line */
                     $this->$key = $enumName::from($val);
                 } else {
                     $this->$key = $val;

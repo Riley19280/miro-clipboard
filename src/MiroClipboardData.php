@@ -7,6 +7,9 @@ use MiroClipboard\Utility\Makeable;
 
 use function MiroClipboard\MiroUtility\encodeMiroData;
 
+/**
+ * @phpstan-consistent-constructor
+ */
 class MiroClipboardData
 {
     use Makeable;

@@ -140,7 +140,7 @@ class MiroShapeStyle
     public function backgroundColor(int|string $color): static
     {
         if (is_string($color)) {
-            $this->bc = hexdec($color);
+            $this->bc = hexdec(str_replace('#', '', $color));
         } else {
             $this->bc = $color;
         }
@@ -158,7 +158,7 @@ class MiroShapeStyle
     public function borderColor(int|string $color): static
     {
         if (is_string($color)) {
-            $this->brc = hexdec($color);
+            $this->brc = hexdec(str_replace('#', '', $color));
         } else {
             $this->brc = $color;
         }
@@ -197,7 +197,7 @@ class MiroShapeStyle
     public function textColor(int|string $color): static
     {
         if (is_string($color)) {
-            $this->tc = hexdec($color);
+            $this->tc = hexdec(str_replace('#', '', $color));
         } else {
             $this->tc = $color;
         }

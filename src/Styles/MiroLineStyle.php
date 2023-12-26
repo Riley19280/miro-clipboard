@@ -60,7 +60,7 @@ class MiroLineStyle
     public function color(int|string $color): static
     {
         if (is_string($color)) {
-            $this->lc = hexdec($color);
+            $this->lc = hexdec(str_replace('#', '', $color));
         } else {
             $this->lc = $color;
         }

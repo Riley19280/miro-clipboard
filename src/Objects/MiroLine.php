@@ -38,9 +38,9 @@ class MiroLine extends MiroWidget
         'widgetIndex'  => -1,
     ];
 
-    public function __construct(int $id, string $initialId)
+    public function __construct()
     {
-        parent::__construct($id, $initialId);
+        parent::__construct();
 
         $this->widgetType = WidgetType::Line;
 
