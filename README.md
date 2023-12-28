@@ -38,8 +38,6 @@ See below for a more complete example of what properties are available.
 <details>
   <summary>MiroShape Example</summary>
 
-</details>
-
 ```php
 MiroWidget::make()
     ->shape(ShapeType::Star)
@@ -68,6 +66,8 @@ MiroWidget::make()
         ->strikethrough()
     );
 ```
+
+</details>
 
 <details>
   <summary>MiroLine Example</summary>
@@ -118,7 +118,7 @@ want to do something similar to load the data directly.
 Existing clipboard data can also be parsed into objects. This is done using the `MiroParser` class.
 
 ```php
-$objects = MiroParser::parse('<your clipboard string');
+$objects = MiroParser::parse('<your clipboard string>');
 ```
 
 This results in a list of MiroObject classes.
