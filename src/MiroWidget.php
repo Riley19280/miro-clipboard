@@ -8,9 +8,12 @@ use MiroClipboard\Enums\WidgetType;
 use MiroClipboard\Objects\MiroLine;
 use MiroClipboard\Objects\MiroObject;
 use MiroClipboard\Objects\MiroShape;
+use MiroClipboard\Utility\Makeable;
 
 class MiroWidget extends MiroObject
 {
+    use Makeable;
+
     protected WidgetType $widgetType;
 
     public function __construct()

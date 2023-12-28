@@ -19,7 +19,7 @@ use MiroClipboard\Styles\MiroLineStyle;
 use MiroClipboard\Styles\MiroShapeStyle;
 
 test('parse', function() {
-    $shape = (new MiroWidget(1, '1'))->shape();
+    $shape = MiroWidget::make()->shape();
 
     $result = MiroParser::parse(MiroClipboardData::make()->addObject($shape)->toHTML());
 
@@ -27,10 +27,10 @@ test('parse', function() {
 });
 
 test('resolve parser', function() {
-    $shape = (new MiroWidget(1, '1'))->shape();
+    $shape = MiroWidget::make()->shape();
     expect(MiroParser::resolveParser($shape->toArray()))->toBeInstanceOf(ShapeParser::class);
 
-    $line = (new MiroWidget(1, '1'))->line();
+    $line = MiroWidget::make()->line();
     expect(MiroParser::resolveParser($line->toArray()))->toBeInstanceOf(LineParser::class);
 
 });
@@ -42,7 +42,7 @@ test('invalid parser', function() {
 })->expectException(ParserNotResolvedException::class);
 
 test('shape parser', function() {
-    $shape = (new MiroWidget(1, 1))
+    $shape = MiroWidget::make()
         ->shape(ShapeType::Star)
         ->text('Hello!')
         ->scale(.5)
@@ -73,7 +73,7 @@ test('shape parser', function() {
 });
 
 test('line parser', function() {
-    $line = (new MiroWidget(1, 1))
+    $line = MiroWidget::make()
         ->line()
         ->addText(
             MiroLineText::make('Hello', .5, .5)

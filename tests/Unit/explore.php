@@ -10,7 +10,7 @@ use MiroClipboard\Styles\MiroLineStyle;
 use MiroClipboard\Styles\MiroShapeStyle;
 
 test('playground', function() {
-    $shape = (new MiroWidget(1, 1))
+    $shape = MiroWidget::make()
         ->shape(ShapeType::Star)
         ->text('Hello!')
         ->scale(.5)
@@ -21,7 +21,7 @@ test('playground', function() {
             ->textColor('#00FF00')
         );
 
-    $line =  (new MiroWidget(2, 2))
+    $line =  MiroWidget::make()
         ->line()
         ->start(-100, 0)
         ->addPoint(50, 50)
@@ -45,7 +45,7 @@ test('playground', function() {
 
     dd(
         MiroClipboardData::make()
-            ->addObject((new MiroWidget(1, 1))
+            ->addObject(MiroWidget::make()
                 ->line()
                 ->start(-100, 0)
                 ->addPoint(50, 50)
@@ -66,7 +66,7 @@ test('playground', function() {
 
     dd(
         MiroClipboardData::make()
-            ->addObject((new MiroWidget(1, 1))
+            ->addObject(MiroWidget::make()
                 ->shape(ShapeType::Star)
                 ->text('Hello!')
                 ->scale(.5)
