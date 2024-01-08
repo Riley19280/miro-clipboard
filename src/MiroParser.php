@@ -2,9 +2,12 @@
 
 namespace MiroClipboard;
 
+use MiroClipboard\Enums\ObjectType;
 use MiroClipboard\Enums\WidgetType;
 use MiroClipboard\Exceptions\ParserNotResolvedException;
+use MiroClipboard\Objects\MiroGroup;
 use MiroClipboard\Objects\MiroObject;
+use MiroClipboard\Parsers\GroupParser;
 use MiroClipboard\Parsers\LineParser;
 use MiroClipboard\Parsers\MiroParserInterface;
 use MiroClipboard\Parsers\ShapeParser;
@@ -18,23 +21,40 @@ class MiroParser
      *
      * @throws ParserNotResolvedException
      *
-     * @return MiroObject[]
+     * @return MiroClipboardData
      */
-    public static function parse(string $data): array
+    public static function parse(string $data): MiroClipboardData
     {
         $arrayData = decodeMiroDataString($data);
 
-        $objects = [];
+        $newClipboardData = MiroClipboardData::make();
 
         foreach ($arrayData['data']['objects'] as $objectData) {
-            $parser    = self::resolveParser($objectData);
-            $objects[] = $parser::parse($objectData);
+            $parser = self::resolveParser($objectData);
+            $newClipboardData->addObject($parser::parse($objectData));
         }
 
-        return $objects;
+        foreach ($newClipboardData->getObjects() as $object) {
+            if (!$object instanceof MiroGroup) {
+                continue;
+            }
+
+            self::resolveGroupReferences($newClipboardData, $object);
+        }
+
+        return $newClipboardData;
     }
 
     public static function resolveParser(array $data): MiroParserInterface
+    {
+        return match (ObjectType::tryFrom($data['type'])) {
+            ObjectType::Object => self::resolveWidgetParser($data),
+            ObjectType::Group  => new GroupParser(),
+            default            => throw new ParserNotResolvedException($data['type'] ?? 'null'),
+        };
+    }
+
+    private static function resolveWidgetParser(array $data): MiroParserInterface
     {
         $widgetType = WidgetType::tryFrom($data['widgetData']['type']);
 
@@ -43,5 +63,24 @@ class MiroParser
             WidgetType::Line  => new LineParser(),
             default           => throw new ParserNotResolvedException($data['widgetData']['type'] ?? 'null'),
         };
+    }
+
+    private static function resolveGroupReferences(MiroClipboardData $clipboardData, MiroGroup $group): void
+    {
+        $groupObjectIds = $group->toArray()['items'];
+
+        $groupObjects = array_reduce(
+            $clipboardData->getObjects(),
+            function(array $ax, MiroObject $object) use ($groupObjectIds) {
+                if (in_array($object->toArray()['id'], $groupObjectIds)) {
+                    $ax[] = $object;
+                }
+
+                return $ax;
+            },
+            []
+        );
+
+        $group->setRawObjects($groupObjects);
     }
 }

@@ -11,19 +11,22 @@ use MiroClipboard\Exceptions\ParserNotResolvedException;
 use MiroClipboard\MiroClipboardData;
 use MiroClipboard\MiroParser;
 use MiroClipboard\MiroWidget;
+use MiroClipboard\Objects\MiroGroup;
 use MiroClipboard\Objects\MiroLineText;
 use MiroClipboard\Objects\MiroShape;
+use MiroClipboard\Parsers\GroupParser;
 use MiroClipboard\Parsers\LineParser;
 use MiroClipboard\Parsers\ShapeParser;
 use MiroClipboard\Styles\MiroLineStyle;
 use MiroClipboard\Styles\MiroShapeStyle;
 
 test('parse', function() {
-    $shape = MiroWidget::make()->shape();
+    $shape = MiroWidget::make()->shape()->position(1.1, 1.1);
 
     $result = MiroParser::parse(MiroClipboardData::make()->addObject($shape)->toHTML());
 
-    expect($result[0])->toBeInstanceOf(MiroShape::class);
+    expect($result)->toBeInstanceOf(MiroClipboardData::class);
+    expect($result->getObjects()[0]->toArray())->toBe($shape->toArray());
 });
 
 test('resolve parser', function() {
@@ -33,6 +36,8 @@ test('resolve parser', function() {
     $line = MiroWidget::make()->line();
     expect(MiroParser::resolveParser($line->toArray()))->toBeInstanceOf(LineParser::class);
 
+    $group = MiroGroup::make();
+    expect(MiroParser::resolveParser($group->toArray()))->toBeInstanceOf(GroupParser::class);
 });
 
 test('invalid parser', function() {
@@ -101,4 +106,28 @@ test('line parser', function() {
         );
 
     expect(LineParser::parse($line->toArray())->toArray())->toBe($line->toArray());
+});
+
+test('group parser', function() {
+    $group = MiroGroup::make()
+        ->add(MiroWidget::make()->shape()->text('hello')->position(100, 100))
+        ->add(MiroWidget::make()->shape()->text('world')->position(200, 200));
+
+    $parsedGroup = GroupParser::parse($group->toArray());
+
+    expect($parsedGroup->toArray())->toBe($group->toArray());
+});
+
+test('group parser resolves other objects', function() {
+    $clipboardData = MiroClipboardData::make()
+        ->addGroup(MiroGroup::make()
+            ->add(MiroWidget::make()->shape()->text('hello')->position(100, 100))
+            ->add(MiroWidget::make()->shape()->text('world')->position(200, 200))
+        );
+
+    $parsedData = MiroClipboardData::parse($clipboardData->toHTML());
+
+    expect(array_map(fn($x) => get_class($x), $parsedData->getObjects()))->toBe([MiroShape::class, MiroShape::class, MiroGroup::class]);
+
+    expect(invade($parsedData->getObjects()[2])->objects)->toHaveCount(2);
 });

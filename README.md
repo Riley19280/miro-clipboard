@@ -118,7 +118,7 @@ want to do something similar to load the data directly.
 Existing clipboard data can also be parsed into objects. This is done using the `MiroParser` class.
 
 ```php
-$objects = MiroParser::parse('<your clipboard string>');
+$clipboardData = MiroClipboardData::parse('<your clipboard string>');
 ```
 
-This results in a list of MiroObject classes.
+This results in a `MiroClipboardData` object.
