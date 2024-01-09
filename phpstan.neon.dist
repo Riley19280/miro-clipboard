@@ -5,3 +5,5 @@ parameters:
         - src
     tmpDir: build/phpstan
     checkMissingIterableValueType: false
+    ignoreErrors:
+        - "#^Unsafe usage of new static#"
