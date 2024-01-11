@@ -2,7 +2,9 @@
 
 namespace MiroClipboard\Objects;
 
+use MiroClipboard\Enums\WidgetSide;
 use MiroClipboard\Enums\WidgetType;
+use MiroClipboard\MiroClipboardData;
 use MiroClipboard\MiroWidget;
 use MiroClipboard\Styles\MiroLineStyle;
 use MiroClipboard\Utility\SetPropertiesFromArray;
@@ -37,6 +39,9 @@ class MiroLine extends MiroWidget
         'positionType' => 0,
         'widgetIndex'  => -1,
     ];
+
+    protected ?MiroObject $toObject   = null;
+    protected ?MiroObject $fromObject = null;
 
     public function __construct()
     {
@@ -79,6 +84,26 @@ class MiroLine extends MiroWidget
         return $this;
     }
 
+    public function from(MiroObject $object, WidgetSide $widgetSide = WidgetSide::Right, float $offset = 0.5): static
+    {
+        $this->fromObject = $object;
+
+        $this->primary['widgetIndex'] = $object->id;
+        $this->primary['point']       = $widgetSide->pointForSide($offset);
+
+        return $this;
+    }
+
+    public function to(MiroObject $object, WidgetSide $widgetSide = WidgetSide::Left, float $offset = 0.5): static
+    {
+        $this->toObject = $object;
+
+        $this->secondary['widgetIndex'] = $object->id;
+        $this->secondary['point']       = $widgetSide->pointForSide($offset);
+
+        return $this;
+    }
+
     public function addPoint(float $x, float $y): static
     {
         $this->points[] = [
@@ -109,6 +134,39 @@ class MiroLine extends MiroWidget
         $this->captions[] = $text;
 
         return $this;
+    }
+
+    /**
+     * Return a list of objects that *may* need to be added to the clipboard data
+     *
+     * @return array<MiroObject>
+     *
+     * @internal
+     */
+    public function getAdditionalObjects(): array
+    {
+        return array_filter([
+            $this->fromObject,
+            $this->toObject,
+        ]);
+    }
+
+    /**
+     * @param MiroClipboardData $clipboardData
+     *
+     * @return void
+     *
+     * @internal
+     */
+    public function resolveClipboardDataReferences(MiroClipboardData $clipboardData): void
+    {
+        if ($this->primary['widgetIndex'] != -1 && ($existing = $clipboardData->findObject($this->primary['widgetIndex']))) {
+            $this->fromObject = $existing;
+        }
+
+        if ($this->secondary['widgetIndex'] != -1 && ($existing = $clipboardData->findObject($this->secondary['widgetIndex']))) {
+            $this->toObject = $existing;
+        }
     }
 
     public function toArray(): array

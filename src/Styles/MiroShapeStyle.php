@@ -36,7 +36,7 @@ class MiroShapeStyle
      *
      * @var int
      */
-    private int $brc = 15132390; // Black: 15132390
+    private int $brc = 15132390;
 
     /**
      * The Border Thickness
@@ -71,7 +71,7 @@ class MiroShapeStyle
      *
      * @var int
      */
-    private int $tc = 15877926;
+    private int $tc = 1710618;
 
     private int $tsc = 1;
 

@@ -30,6 +30,16 @@ abstract class MiroObject
         return $this;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getInitialId(): string
+    {
+        return $this->initialId;
+    }
+
     public function toArray(): array
     {
         return [

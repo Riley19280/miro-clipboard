@@ -3,6 +3,7 @@
 namespace MiroClipboard\Objects;
 
 use MiroClipboard\Enums\ObjectType;
+use MiroClipboard\MiroClipboardData;
 use MiroClipboard\Utility\Makeable;
 
 class MiroGroup extends MiroObject
@@ -50,11 +51,25 @@ class MiroGroup extends MiroObject
     }
 
     /**
+     * @param MiroClipboardData $clipboardData
+     *
+     * @return void
+     *
      * @internal
      */
-    public function setRawObjects(array $objects): void
+    public function resolveClipboardDataReferences(MiroClipboardData $clipboardData): void
     {
-        $this->objects = $objects;
+        $this->objects = array_reduce(
+            $clipboardData->getObjects(),
+            function(array $ax, MiroObject $object) {
+                if (in_array($object->toArray()['id'], $this->ids)) {
+                    $ax[] = $object;
+                }
+
+                return $ax;
+            },
+            []
+        );
     }
 
     public function toArray(): array
