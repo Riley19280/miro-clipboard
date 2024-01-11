@@ -5,8 +5,6 @@ namespace MiroClipboard;
 use MiroClipboard\Enums\ObjectType;
 use MiroClipboard\Enums\WidgetType;
 use MiroClipboard\Exceptions\ParserNotResolvedException;
-use MiroClipboard\Objects\MiroGroup;
-use MiroClipboard\Objects\MiroObject;
 use MiroClipboard\Parsers\GroupParser;
 use MiroClipboard\Parsers\LineParser;
 use MiroClipboard\Parsers\MiroParserInterface;
@@ -17,15 +15,19 @@ use function MiroClipboard\MiroUtility\decodeMiroDataString;
 class MiroParser
 {
     /**
-     * @param string $data
+     * @param string|array $data
      *
      * @throws ParserNotResolvedException
      *
      * @return MiroClipboardData
      */
-    public static function parse(string $data): MiroClipboardData
+    public static function parse(string|array $data): MiroClipboardData
     {
-        $arrayData = decodeMiroDataString($data);
+        if (is_string($data)) {
+            $arrayData = decodeMiroDataString($data);
+        } else {
+            $arrayData = $data;
+        }
 
         $newClipboardData = MiroClipboardData::make();
 
@@ -35,11 +37,9 @@ class MiroParser
         }
 
         foreach ($newClipboardData->getObjects() as $object) {
-            if (!$object instanceof MiroGroup) {
-                continue;
+            if (method_exists($object, 'resolveClipboardDataReferences')) {
+                $object->resolveClipboardDataReferences($newClipboardData);
             }
-
-            self::resolveGroupReferences($newClipboardData, $object);
         }
 
         return $newClipboardData;
@@ -63,24 +63,5 @@ class MiroParser
             WidgetType::Line  => new LineParser(),
             default           => throw new ParserNotResolvedException($data['widgetData']['type'] ?? 'null'),
         };
-    }
-
-    private static function resolveGroupReferences(MiroClipboardData $clipboardData, MiroGroup $group): void
-    {
-        $groupObjectIds = $group->toArray()['items'];
-
-        $groupObjects = array_reduce(
-            $clipboardData->getObjects(),
-            function(array $ax, MiroObject $object) use ($groupObjectIds) {
-                if (in_array($object->toArray()['id'], $groupObjectIds)) {
-                    $ax[] = $object;
-                }
-
-                return $ax;
-            },
-            []
-        );
-
-        $group->setRawObjects($groupObjects);
     }
 }

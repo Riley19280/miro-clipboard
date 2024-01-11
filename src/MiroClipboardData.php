@@ -3,6 +3,7 @@
 namespace MiroClipboard;
 
 use MiroClipboard\Objects\MiroGroup;
+use MiroClipboard\Objects\MiroLine;
 use MiroClipboard\Objects\MiroObject;
 use MiroClipboard\Utility\Makeable;
 
@@ -41,6 +42,12 @@ class MiroClipboardData
     {
         if ($object instanceof MiroGroup) {
             return $this->addGroup($object);
+        } elseif ($object instanceof MiroLine) {
+            foreach ($object->getAdditionalObjects() as $obj) {
+                if (!$this->findObject($obj)) {
+                    $this->objects[] = $obj;
+                }
+            }
         }
 
         $this->objects[] = $object;
@@ -87,7 +94,19 @@ class MiroClipboardData
         return $this->objects;
     }
 
-    public static function parse(string $data): MiroClipboardData
+    public function findObject(int|MiroObject $object): false|MiroObject
+    {
+        $searchId = is_int($object) ? $object : $object->getId();
+        foreach ($this->objects as $existing) {
+            if ($existing->getId() === $searchId) {
+                return $existing;
+            }
+        }
+
+        return false;
+    }
+
+    public static function parse(string|array $data): MiroClipboardData
     {
         return MiroParser::parse($data);
     }

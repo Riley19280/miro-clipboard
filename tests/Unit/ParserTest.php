@@ -12,6 +12,7 @@ use MiroClipboard\MiroClipboardData;
 use MiroClipboard\MiroParser;
 use MiroClipboard\MiroWidget;
 use MiroClipboard\Objects\MiroGroup;
+use MiroClipboard\Objects\MiroLine;
 use MiroClipboard\Objects\MiroLineText;
 use MiroClipboard\Objects\MiroShape;
 use MiroClipboard\Parsers\GroupParser;
@@ -20,10 +21,19 @@ use MiroClipboard\Parsers\ShapeParser;
 use MiroClipboard\Styles\MiroLineStyle;
 use MiroClipboard\Styles\MiroShapeStyle;
 
-test('parse', function() {
+test('parse string', function() {
     $shape = MiroWidget::make()->shape()->position(1.1, 1.1);
 
     $result = MiroParser::parse(MiroClipboardData::make()->addObject($shape)->toHTML());
+
+    expect($result)->toBeInstanceOf(MiroClipboardData::class);
+    expect($result->getObjects()[0]->toArray())->toBe($shape->toArray());
+});
+
+test('parse array', function() {
+    $shape = MiroWidget::make()->shape()->position(1.1, 1.1);
+
+    $result = MiroParser::parse(MiroClipboardData::make()->addObject($shape)->toArray());
 
     expect($result)->toBeInstanceOf(MiroClipboardData::class);
     expect($result->getObjects()[0]->toArray())->toBe($shape->toArray());
@@ -130,4 +140,22 @@ test('group parser resolves other objects', function() {
     expect(array_map(fn($x) => get_class($x), $parsedData->getObjects()))->toBe([MiroShape::class, MiroShape::class, MiroGroup::class]);
 
     expect(invade($parsedData->getObjects()[2])->objects)->toHaveCount(2);
+});
+
+test('line object to and from objects are set', function() {
+    $clipboardData = MiroClipboardData::make()
+        ->addObject(MiroLine::make()->id(1)
+            ->from(MiroWidget::make()->id(2)->shape()->text('hello')->position(100, 100))
+            ->to(MiroWidget::make()->id(3)->shape()->text('world')->position(200, 200))
+        );
+
+    $parsedData = MiroClipboardData::parse($clipboardData->toArray());
+
+    expect($parsedData->getObjects())->toHaveCount(3);
+    expect($parsedData->getObjects()[2])->toBeInstanceOf(MiroLine::class);
+
+    $line = $parsedData->getObjects()[2];
+
+    expect(invade($line)->fromObject)->toBeInstanceOf(MiroShape::class);
+    expect(invade($line)->toObject)->toBeInstanceOf(MiroShape::class);
 });

@@ -1,0 +1,114 @@
+{
+    "boardId": "line_connection",
+    "data": {
+        "meta": [],
+        "objects": [
+            {
+                "id": 2,
+                "initialId": "2",
+                "type": 14,
+                "widgetData": {
+                    "type": "shape",
+                    "json": {
+                        "size": {
+                            "width": 100,
+                            "height": 100
+                        },
+                        "_position": {
+                            "offsetPx": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        },
+                        "scale": {
+                            "scale": 1
+                        },
+                        "relativeScale": 1,
+                        "rotation": {
+                            "rotation": 0
+                        },
+                        "relativeRotation": 0,
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "_parent": null,
+                        "text": "1",
+                        "style": "{\"st\":3,\"ss\":2,\"sc\":1710618,\"bc\":-1,\"bo\":1,\"brc\":15132390,\"brw\":2,\"bro\":1,\"brs\":2,\"ffn\":\"OpenSans\",\"tc\":1710618,\"tsc\":1,\"ta\":\"c\",\"tav\":\"m\",\"fs\":24,\"b\":null,\"i\":null,\"u\":null,\"s\":null,\"bsc\":1,\"VER\":\"2.1\",\"hl\":null}",
+                        "shape": "3"
+                    }
+                }
+            },
+            {
+                "id": 3,
+                "initialId": "3",
+                "type": 14,
+                "widgetData": {
+                    "type": "shape",
+                    "json": {
+                        "size": {
+                            "width": 100,
+                            "height": 100
+                        },
+                        "_position": {
+                            "offsetPx": {
+                                "x": 200,
+                                "y": 0
+                            }
+                        },
+                        "scale": {
+                            "scale": 1
+                        },
+                        "relativeScale": 1,
+                        "rotation": {
+                            "rotation": 0
+                        },
+                        "relativeRotation": 0,
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "_parent": null,
+                        "text": "2",
+                        "style": "{\"st\":3,\"ss\":2,\"sc\":1710618,\"bc\":-1,\"bo\":1,\"brc\":15132390,\"brw\":2,\"bro\":1,\"brs\":2,\"ffn\":\"OpenSans\",\"tc\":1710618,\"tsc\":1,\"ta\":\"c\",\"tav\":\"m\",\"fs\":24,\"b\":null,\"i\":null,\"u\":null,\"s\":null,\"bsc\":1,\"VER\":\"2.1\",\"hl\":null}",
+                        "shape": "3"
+                    }
+                }
+            },
+            {
+                "id": 1,
+                "initialId": "1",
+                "type": 14,
+                "widgetData": {
+                    "type": "line",
+                    "json": {
+                        "line": {
+                            "captions": []
+                        },
+                        "points": [],
+                        "primary": {
+                            "point": {
+                                "x": 1,
+                                "y": 0
+                            },
+                            "positionType": 0,
+                            "widgetIndex": 2
+                        },
+                        "secondary": {
+                            "point": {
+                                "x": 0,
+                                "y": 1
+                            },
+                            "positionType": 0,
+                            "widgetIndex": 3
+                        },
+                        "style": "{\"lc\":1710618,\"ls\":2,\"t\":2,\"lt\":2,\"a_start\":0,\"a_end\":0,\"VER\":\"2\",\"jump\":0}"
+                    }
+                }
+            }
+        ]
+    },
+    "host": "miro.com",
+    "version": 2,
+    "isProtected": false
+}

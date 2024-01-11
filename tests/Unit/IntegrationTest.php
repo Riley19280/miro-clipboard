@@ -1,21 +1,40 @@
 <?php
 
-use MiroClipboard\Enums\WidgetType;
+use MiroClipboard\Enums\WidgetSide;
+use MiroClipboard\MiroClipboardData;
 use MiroClipboard\MiroWidget;
-use MiroClipboard\Objects\MiroLine;
-use MiroClipboard\Objects\MiroShape;
 
-test('set type', function() {
-    $data = MiroWidget::make()->type(WidgetType::Sticker);
-    expect(invade($data)->widgetType)->toBe(WidgetType::Sticker);
-});
+test('line connecting shape', function() {
+    // This should create 2 squares with a line pointing between them.
+    // The line should be from the top left corner to the bottom right
 
-test('set shape', function() {
-    $data = MiroWidget::make()->shape();
-    expect($data)->toBeInstanceOf(MiroShape::class);
-});
+    $data = MiroClipboardData::make()
+        ->boardId('line_connection')
+        ->addObject(
+            MiroWidget::make()
+                ->id(1)
+                ->initialId(1)
+                ->line()
+                ->from(
+                    MiroWidget::make()
+                        ->id(2)
+                        ->initialId(2)
+                        ->shape()
+                        ->text('1'),
+                    WidgetSide::Right,
+                    0
+                )
+                ->to(
+                    MiroWidget::make()
+                        ->id(3)
+                        ->initialId(3)
+                        ->shape()
+                        ->text('2')
+                        ->offsetPosition(200, 0),
+                    WidgetSide::Left,
+                    1
+                )
+        );
 
-test('set line', function() {
-    $data = MiroWidget::make()->line();
-    expect($data)->toBeInstanceOf(MiroLine::class);
+    expect($data->toArray())->toMatchSnapshot();
 });
