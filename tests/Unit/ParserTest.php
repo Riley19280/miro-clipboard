@@ -20,6 +20,7 @@ use MiroClipboard\Parsers\LineParser;
 use MiroClipboard\Parsers\ShapeParser;
 use MiroClipboard\Styles\MiroLineStyle;
 use MiroClipboard\Styles\MiroShapeStyle;
+use MiroClipboard\Utility\SetPropertiesFromArray;
 
 test('parse string', function() {
     $shape = MiroWidget::make()->shape()->position(1.1, 1.1);
@@ -142,6 +143,19 @@ test('group parser resolves other objects', function() {
     expect(invade($parsedData->getObjects()[2])->objects)->toHaveCount(2);
 });
 
+test('parsed objects part of a group have a group reference', function() {
+    $clipboardData = MiroClipboardData::make()
+        ->addGroup(MiroGroup::make()
+            ->add(MiroWidget::make()->shape()->text('hello')->position(100, 100))
+        );
+
+    $parsedData = MiroClipboardData::parse($clipboardData->toHTML());
+
+    expect($shape = $parsedData->getObjects()[0])->toBeInstanceOf(MiroShape::class);
+
+    expect($shape->group())->toEqual($parsedData->getObjects()[1]);
+});
+
 test('line object to and from objects are set', function() {
     $clipboardData = MiroClipboardData::make()
         ->addObject(MiroLine::make()->id(1)
@@ -158,4 +172,20 @@ test('line object to and from objects are set', function() {
 
     expect(invade($line)->fromObject)->toBeInstanceOf(MiroShape::class);
     expect(invade($line)->toObject)->toBeInstanceOf(MiroShape::class);
+});
+
+test('throws with invalid data', function() {
+    MiroParser::parse('test');
+})->throws(\MiroClipboard\Exceptions\InvalidDataException::class);
+
+test('parsing empty string into nullable field', function() {
+    $instance = new class()
+    {
+        public ?string $field;
+        use SetPropertiesFromArray;
+    };
+
+    $instance->setPropertiesFromArray(['field' => '']);
+
+    expect($instance->field)->toBeNull();
 });

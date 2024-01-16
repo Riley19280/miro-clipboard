@@ -4,7 +4,7 @@ namespace MiroClipboard\Exceptions;
 
 use Throwable;
 
-class ParserNotResolvedException extends \Exception
+class ParserNotResolvedException extends MiroDataException
 {
     public function __construct(string $parserType, int $code = 0, ?Throwable $previous = null)
     {

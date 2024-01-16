@@ -7,10 +7,12 @@ use MiroClipboard\Enums\WidgetType;
 use MiroClipboard\MiroClipboardData;
 use MiroClipboard\MiroWidget;
 use MiroClipboard\Styles\MiroLineStyle;
+use MiroClipboard\Utility\HasGroup;
 use MiroClipboard\Utility\SetPropertiesFromArray;
 
 class MiroLine extends MiroWidget
 {
+    use HasGroup;
     use SetPropertiesFromArray;
 
     private MiroLineStyle $lineStyle;

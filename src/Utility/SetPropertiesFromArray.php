@@ -32,6 +32,8 @@ trait SetPropertiesFromArray
                 ) {
                     /** @phpstan-ignore-next-line */
                     $this->$key = $enumName::from($val);
+                } elseif ($propType->allowsNull() && empty($val)) {
+                    $this->$key = null;
                 } else {
                     $this->$key = $val;
                 }

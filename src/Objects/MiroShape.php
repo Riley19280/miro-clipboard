@@ -6,10 +6,12 @@ use MiroClipboard\Enums\ShapeType;
 use MiroClipboard\Enums\WidgetType;
 use MiroClipboard\MiroWidget;
 use MiroClipboard\Styles\MiroShapeStyle;
+use MiroClipboard\Utility\HasGroup;
 use MiroClipboard\Utility\SetPropertiesFromArray;
 
 class MiroShape extends MiroWidget
 {
+    use HasGroup;
     use SetPropertiesFromArray;
 
     private MiroShapeStyle $shapeStyle;

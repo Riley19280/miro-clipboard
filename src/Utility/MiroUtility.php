@@ -2,6 +2,8 @@
 
 namespace MiroClipboard\MiroUtility;
 
+use MiroClipboard\Exceptions\InvalidDataException;
+
 use function MiroClipboard\Utility\stringToByteArray;
 
 function encodeMiroData(array $data, int $encodingOffset = 59): string
@@ -21,9 +23,12 @@ function encodeMiroData(array $data, int $encodingOffset = 59): string
 
 function decodeMiroDataString(string $text, int $encodingOffset = 59): array
 {
-    $isHtml = preg_match('/(?:^.*?\(miro-data-v[0-9]+\))(.*?)(?:\(\/miro-data-v[0-9]+\).*?$)/', $text, $matches);
+    $isHtml = preg_match('/(?:^.*?\(miro-data-v[0-9]+\))(.*?)(?:\(\/miro-data-v[0-9]+\).*?$)/m', $text, $matches);
+
     if ($isHtml) {
         $text = $matches[1];
+    } else {
+        throw new InvalidDataException();
     }
 
     $text = base64_decode($text);
