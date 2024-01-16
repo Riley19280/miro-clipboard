@@ -4,6 +4,7 @@ namespace MiroClipboard\Objects;
 
 use MiroClipboard\Enums\ObjectType;
 use MiroClipboard\MiroClipboardData;
+use MiroClipboard\Utility\HasGroup;
 use MiroClipboard\Utility\Makeable;
 
 class MiroGroup extends MiroObject
@@ -33,6 +34,10 @@ class MiroGroup extends MiroObject
     public function add(int|MiroObject $object): static
     {
         if ($object instanceof MiroObject) {
+            if (in_array(HasGroup::class, class_uses($object))) {
+                $object->setGroup($this); // @phpstan-ignore-line
+            }
+
             $this->objects[] = $object;
             $this->ids[]     = $object->id;
         } else {
@@ -48,6 +53,18 @@ class MiroGroup extends MiroObject
     public function getObjects(): array
     {
         return $this->objects;
+    }
+
+    public function findObject(int|MiroObject $object): false|MiroObject
+    {
+        $searchId = is_int($object) ? $object : $object->getId();
+        foreach ($this->objects as $existing) {
+            if ($existing->getId() === $searchId) {
+                return $existing;
+            }
+        }
+
+        return false;
     }
 
     /**

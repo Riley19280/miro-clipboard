@@ -9,6 +9,7 @@ use MiroClipboard\Parsers\GroupParser;
 use MiroClipboard\Parsers\LineParser;
 use MiroClipboard\Parsers\MiroParserInterface;
 use MiroClipboard\Parsers\ShapeParser;
+use MiroClipboard\Utility\HasGroup;
 
 use function MiroClipboard\MiroUtility\decodeMiroDataString;
 
@@ -39,6 +40,9 @@ class MiroParser
         foreach ($newClipboardData->getObjects() as $object) {
             if (method_exists($object, 'resolveClipboardDataReferences')) {
                 $object->resolveClipboardDataReferences($newClipboardData);
+            }
+            if (in_array(HasGroup::class, class_uses($object))) {
+                $object->resolveGroupClipboardDataReferences($newClipboardData);
             }
         }
 
